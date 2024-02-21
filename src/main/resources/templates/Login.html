@@ -56,6 +56,9 @@
             transition: border-color 0.3s;
         }
 
+        h3 {
+            color: red;
+        }
         input:focus {
             border-color: #3498db;
         }
@@ -92,8 +95,14 @@
     <h1>iVoPay</h1>
 </header>
 <main>
-    <form id="loginForm">
+    <form id="loginForm" method="POST">
         <h2>Login</h2>
+        <div th:if="${param.error}">
+            <h3>Invalid Username or Password</h3>
+        </div>
+        <div th:if="${param.logout}">
+            <h3>Logout Successfuly</h3>
+        </div>
         <input type="text" placeholder="Enter Username" name="username" required>
         <input type="password" placeholder="Enter Password" name="password" required>
         <input type="submit" value="Login">

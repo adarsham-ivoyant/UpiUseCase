@@ -2,8 +2,10 @@ package com.ivoyant.upiusecase.controllers;
 
 import com.ivoyant.upiusecase.dto.UsersDto;
 import com.ivoyant.upiusecase.service.UserService;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +37,7 @@ public class UserController {
         userService.save(usersDto);
         model.addAttribute("login", "/login");
         model.addAttribute("message", "Registered Successfully");
-        return new ModelAndView("Logout","model",model);
+        return new ModelAndView("Logout", "model", model);
     }
 
     @GetMapping("/login")
@@ -44,4 +46,14 @@ public class UserController {
         return new ModelAndView("Login", "model", model);
     }
 
+    @PostMapping("/login")
+    public ModelAndView loginHandler(Model model) {
+        model.addAttribute("register", "/register");
+        return new ModelAndView("Login", "model", model);
+    }
+
+    @GetMapping("/home")
+    public ModelAndView homePage() {
+        return new ModelAndView("HomePage");
+    }
 }
