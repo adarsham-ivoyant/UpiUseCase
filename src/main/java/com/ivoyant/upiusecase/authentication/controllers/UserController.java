@@ -4,14 +4,6 @@ import com.ivoyant.upiusecase.authentication.dto.UsersDto;
 import com.ivoyant.upiusecase.authentication.model.Users;
 import com.ivoyant.upiusecase.authentication.repository.UsersRepository;
 import com.ivoyant.upiusecase.authentication.service.UserService;
-import com.ivoyant.upiusecase.bankdetails.model.BankDetails;
-import com.ivoyant.upiusecase.bankdetails.repository.BankDetailsRepository;
-import com.ivoyant.upiusecase.transcation.Repository.TranscationRepository;
-import com.ivoyant.upiusecase.transcation.enums.TransactionType;
-import com.ivoyant.upiusecase.transcation.model.Transcations;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -20,73 +12,73 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
-@Slf4j
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final UserDetailsService userDetailsService;
+    private final UsersRepository usersRepository;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    public UserController(UserService userService, UserDetailsService userDetailsService, UsersRepository usersRepository) {
+        this.userService = userService;
+        this.userDetailsService = userDetailsService;
+        this.usersRepository = usersRepository;
+    }
 
-    @Autowired
-    UsersRepository usersRepository;
-    @Autowired
-    BankDetailsRepository bankDetailsRepository;
-    @Autowired
-    TranscationRepository transcationRepository;
-
+    // Landing Page of the website
     @RequestMapping("/")
     public ModelAndView landingPage(Model model) {
+        // passing URL to register page as a model Attribute
+        // NOTE: Since it is static we can also use the url directly in href of Thymeleaf
         model.addAttribute("register", "/register");
         return new ModelAndView("Landing", "model", model);
     }
 
+    // Register Page of the website (GET - to enable /register url access)
     @GetMapping("/register")
     public ModelAndView registerPage(Model model) {
+        // passing URL to login page as a model Attribute
+        // NOTE: Since it is static we can also use the url directly in href of Thymeleaf
         model.addAttribute("login", "/login");
         return new ModelAndView("Register", "model", model);
     }
 
+    // Register Page Detail Handling (POST - to process form data entered)
     @PostMapping("/register")
     public ModelAndView registerPage(@ModelAttribute("users") UsersDto usersDto, Model model) {
-        userService.save(usersDto);
+        // passing URL to login page as a model Attribute
+        // NOTE: Since it is static we can also use the url directly in href of Thymeleaf
         model.addAttribute("login", "/login");
-        model.addAttribute("message", "Registered Successfully");
+        if (userService.save(usersDto) != null) {
+            // Save Newly registered user using DTO if not returned null then add message to model as attribute
+            model.addAttribute("message", "Registered Successfully");
+        } else {
+            // if returned null then
+            model.addAttribute("message", "Registration  Unsuccessfully");
+        }
         return new ModelAndView("Register", "model", model);
     }
 
+    // Login Page of the website (GET - to enable /login url access)
     @GetMapping("/login")
     public ModelAndView loginPage(Model model) {
+        // passing URL to register page as a model Attribute
+        // NOTE: Since it is static we can also use the url directly in href of Thymeleaf
         model.addAttribute("register", "/register");
         return new ModelAndView("Login", "model", model);
     }
 
-    @PostMapping("/login")
-    public ModelAndView loginHandler(Model model, Principal principal) {
-        model.addAttribute("register", "/register");
-        return new ModelAndView("Login", "model", model);
-    }
-
+    // Home Page of After Authentication Successfully
     @GetMapping("/home")
     public ModelAndView homePage(Model model, Principal principal) {
+        // Getting UserDetails Object Using Principal Object
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+        // Getting UserInstance Using username available in userDetails Instance
         Users user = usersRepository.findUsersByUsername(userDetails.getUsername());
-        BankDetails bankDetails = bankDetailsRepository.findBankDetailsByUser(user);
-        if (bankDetails != null) {
-            model.addAttribute("bankDetails", bankDetails);
-            Transcations transcation = transcationRepository.findMostRecentTransactionForUser(user);
-            if(transcation!=null){
-                model.addAttribute("recentTxn", transcation);
-                model.addAttribute("user",user);
-                model.addAttribute("typeDEBIT",TransactionType.DEBIT);
-                model.addAttribute("typeCREDIT",TransactionType.CREDIT);
-            }
-        }
+        // home page details to be displayed using homeService
+        userService.homeService(user, model);
         model.addAttribute("userDetails", userDetails);
         model.addAttribute("user", user);
-        return new ModelAndView("HomePage");
+        return new ModelAndView("Homepage");
     }
 }

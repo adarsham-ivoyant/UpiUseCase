@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,21 +17,29 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final CustomSuccessHandler customSuccessHandler;
 
-    @Autowired
-    CustomSuccessHandler customSuccessHandler;
-    @Autowired
-    CustomUserDetailService customUserDetailService;
+    private final CustomUserDetailService customUserDetailService;
 
+    public SecurityConfig(CustomSuccessHandler customSuccessHandler, CustomUserDetailService customUserDetailService) {
+        this.customSuccessHandler = customSuccessHandler;
+        this.customUserDetailService = customUserDetailService;
+    }
+
+    // Configuring BCryptPassword Encoder as Password Encoder
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Implementation Of Filter Chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // Disabling CSRF Token
+        // Permitting All User To Access LandingPage, LoginPage, RegistrationPage, Along CSS and JS files
+        // Overriding Default Login Page Of Spring Security
         http
-                .csrf(c -> c.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests.requestMatchers("/").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/css/**").permitAll()

@@ -1,6 +1,6 @@
 package com.ivoyant.upiusecase.transcation.enums;
 
-public enum TranscationStatus {
+public enum TransactionStatus {
     SUCCESS,
     FAILURE
 }

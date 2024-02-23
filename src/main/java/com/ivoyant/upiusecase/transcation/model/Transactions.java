@@ -2,7 +2,7 @@ package com.ivoyant.upiusecase.transcation.model;
 
 import com.ivoyant.upiusecase.authentication.model.Users;
 import com.ivoyant.upiusecase.transcation.enums.TransactionType;
-import com.ivoyant.upiusecase.transcation.enums.TranscationStatus;
+import com.ivoyant.upiusecase.transcation.enums.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Transcations {
+public class Transactions {
     @Id
     private String txnId;
 
@@ -39,6 +39,6 @@ public class Transcations {
     @Column(name = "receiver_transaction_type")
     private TransactionType receiverTransactionType;
     @Enumerated(EnumType.STRING)
-    private TranscationStatus status;
+    private TransactionStatus status;
 }
 

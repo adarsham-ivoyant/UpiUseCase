@@ -90,3 +90,10 @@ document.addEventListener("DOMContentLoaded", function () {
         messageContainer.style.display = "none";
     }, 10000);
 });
+document.addEventListener("DOMContentLoaded", function () {
+    var messageContainer = document.getElementById("messageContainer3");
+    messageContainer.style.display = "block";
+    setTimeout(function () {
+        messageContainer.style.display = "none";
+    }, 10000);
+});

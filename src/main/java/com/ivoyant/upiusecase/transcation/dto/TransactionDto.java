@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Builder
-public class TranscationDto {
+public class TransactionDto {
     private Users sender;
     private Users receiver;
     private Double amount;

@@ -27,13 +27,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="transaction : ${transactions}">
+        <tr th:each="transaction : ${transactions}" th:if="${transactions.size()>0}">
             <td th:text="${transaction.txnId}"></td>
             <td th:text="${transaction.sender.fullName}"></td>
             <td th:text="${transaction.receiver.fullName}"></td>
             <td th:text="${#temporals.format(transaction.transactionDateTime, 'yyyy-MM-dd,hh:mm:ss a')}"></td>
             <td th:text="${transaction.amount}"></td>
             <td style="color: green;" th:text="${transaction.status}"></td>
+        </tr>
+        <tr th:if="${transactions.size()==0}">
+            <td colspan="6">NO TRANSACTIONS YET</td>
         </tr>
         </tbody>
     </table>

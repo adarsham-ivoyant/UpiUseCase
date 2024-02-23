@@ -14,7 +14,7 @@
     <form method="POST">
         <h2>Register User</h2>
         <div id="messageContainer" th:if="${model.containsKey('message')}">
-            <h3>Registration Successful</h3>
+            <h3 style="color:green;">Registration Successful</h3>
         </div>
         <div th:if="${param.error}">
             <h3>Registration Unsuccessful</h3>

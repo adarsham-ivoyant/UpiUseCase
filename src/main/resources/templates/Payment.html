@@ -33,6 +33,9 @@
     <div th:if="${param.upiPassChanged}" id="messageContainer2">
         <h3 style="color: green;">UPI Password Changed Successfully</h3>
     </div>
+    <div th:if="${param.upiPassChangefailed}" id="messageContainer3">
+        <h3 style="color: red;">UPI Password Changed Successfully</h3>
+    </div>
     <form id="paymentForm" action="/pay" method="POST" th:if="${toBank}" th:attr="balance=${bankDetails.getBalance()}" th:unless="${param.success}">
         <h4 style="text-align: center">To UPI Id: <span th:text="${toBank.getUpiId()}"></span></h4>
         <label for="amount">Enter Amount Send:</label>

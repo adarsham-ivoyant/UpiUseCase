@@ -75,3 +75,32 @@ document.addEventListener("DOMContentLoaded", function () {
         messageContainer.style.display = "none";
     }, 20000);
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    var messageContainer = document.getElementById("messageContainer2");
+    messageContainer.style.display = "block";
+    setTimeout(function () {
+        messageContainer.style.display = "none";
+    }, 20000);
+});
+document.addEventListener("DOMContentLoaded", function () {
+    var messageContainer = document.getElementById("messageContainer3");
+    messageContainer.style.display = "block";
+    setTimeout(function () {
+        messageContainer.style.display = "none";
+    }, 20000);
+});
+document.addEventListener("DOMContentLoaded", function () {
+    var messageContainer = document.getElementById("messageContainer4");
+    messageContainer.style.display = "block";
+    setTimeout(function () {
+        messageContainer.style.display = "none";
+    }, 20000);
+});
+document.addEventListener("DOMContentLoaded", function () {
+    var messageContainer = document.getElementById("messageContainer5");
+    messageContainer.style.display = "block";
+    setTimeout(function () {
+        messageContainer.style.display = "none";
+    }, 20000);
+});

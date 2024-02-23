@@ -16,6 +16,24 @@
 </header>
 <main>
     <h2>Welcome <span th:text="${userDetails.getUsername()}">User</span></h2>
+    <div th:if="${param.changedMail}" id="messageContainer">
+        <h3 style="color: green;">Email Changed Successfully</h3>
+    </div>
+    <div th:if="${param.failedChangeMail}" id="messageContainer1">
+        <h3 style="color: red;">Not Able To Change Email</h3>
+    </div>
+    <div th:if="${param.changedPh}" id="messageContainer2">
+        <h3 style="color: green;">Phone Number Changed Successfully</h3>
+    </div>
+    <div th:if="${param.failedChangePh}" id="messageContainer3">
+        <h3 style="color: red;">Not Able To Change Phone Number</h3>
+    </div>
+    <div th:if="${param.bankAdded}" id="messageContainer4">
+        <h3 style="color: green;">Bank Account Added Successfully</h3>
+    </div>
+    <div th:if="${param.bankAddFailed}" id="messageContainer5">
+        <h3 style="color: red;">Failed To Add Bank Account</h3>
+    </div>
     <div class="icon-buttons" th:unless="${bankDetails}">
         <a class="cta-button" onclick="openAddAcctModal()"><i class="fas fa-university"></i> Add Bank
             Account</a>
@@ -32,55 +50,55 @@
         <h3 style="text-align: center;">Account Number: <span th:text="${bankDetails.getAccountNumber()}"></span></h3>
         <h3 style="text-align: center;">IFSC Code: <span th:text="${bankDetails.getIfscCode()}"></span></h3>
     </div>
+    <div th:if="${recentTxn}">
+        <div th:if="${recentTxn.getSender()==user}">
+            <h2 style="color: #2980b9;text-align: center;">Recent Transaction</h2>
+            <table>
+                <tr>
+                    <th>Txn ID</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th th:text="'To'">FD</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td th:text="${recentTxn.getTxnId()}">Ernst Handel</td>
+                    <td th:text="|Rs.${recentTxn.getAmount()}|">Roland Mendel</td>
+                    <td th:text="|${recentTxn.getTransactionDateTime().getYear()}-${recentTxn.getTransactionDateTime().getMonthValue()}-${recentTxn.getTransactionDateTime().getDayOfMonth()}|">
+                        Austria
+                    </td>
+                    <td th:text="${recentTxn.getSenderTransactionType()}"></td>
+                    <th th:text="${recentTxn.getReceiver().getFullName()}">FD</th>
+                    <td th:text="${recentTxn.getStatus()}" style="color:green;"></td>
+                </tr>
+            </table>
+        </div>
 
-    <div th:if="${recentTxn.getSender()==user}">
-        <h2 style="color: #2980b9;text-align: center;">Recent Transaction</h2>
-        <table>
-            <tr>
-                <th>Txn ID</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Type</th>
-                <th th:text="'To'">FD</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <td th:text="${recentTxn.getTxnId()}">Ernst Handel</td>
-                <td th:text="|Rs.${recentTxn.getAmount()}|">Roland Mendel</td>
-                <td th:text="|${recentTxn.getTransactionDateTime().getYear()}-${recentTxn.getTransactionDateTime().getMonthValue()}-${recentTxn.getTransactionDateTime().getDayOfMonth()}|">
-                    Austria
-                </td>
-                <td th:text="${recentTxn.getSenderTransactionType()}"></td>
-                <th th:text="${recentTxn.getReceiver().getFullName()}">FD</th>
-                <td th:text="${recentTxn.getStatus()}" style="color:green;"></td>
-            </tr>
-        </table>
+        <div th:unless="${recentTxn.getSender()==user}">
+            <h2 style="color: #2980b9;text-align: center;">Recent Transaction</h2>
+            <table>
+                <tr>
+                    <th>Txn ID</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th th:text="'From'">FD</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td th:text="${recentTxn.getTxnId()}">Ernst Handel</td>
+                    <td th:text="|Rs.${recentTxn.getAmount()}|">Roland Mendel</td>
+                    <td th:text="|${recentTxn.getTransactionDateTime().getYear()}-${recentTxn.getTransactionDateTime().getMonthValue()}-${recentTxn.getTransactionDateTime().getDayOfMonth()}|">
+                        Austria
+                    </td>
+                    <td th:text="${recentTxn.getReceiverTransactionType()}"></td>
+                    <th th:text="${recentTxn.getSender().getFullName()}">FD</th>
+                    <td th:text="${recentTxn.getStatus()}" style="color:green;"></td>
+                </tr>
+            </table>
+        </div>
     </div>
-
-    <div th:unless="${recentTxn.getSender()==user}">
-        <h2 style="color: #2980b9;text-align: center;">Recent Transaction</h2>
-        <table>
-            <tr>
-                <th>Txn ID</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Type</th>
-                <th th:text="'From'">FD</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <td th:text="${recentTxn.getTxnId()}">Ernst Handel</td>
-                <td th:text="|Rs.${recentTxn.getAmount()}|">Roland Mendel</td>
-                <td th:text="|${recentTxn.getTransactionDateTime().getYear()}-${recentTxn.getTransactionDateTime().getMonthValue()}-${recentTxn.getTransactionDateTime().getDayOfMonth()}|">
-                    Austria
-                </td>
-                <td th:text="${recentTxn.getReceiverTransactionType()}"></td>
-                <th th:text="${recentTxn.getSender().getFullName()}">FD</th>
-                <td th:text="${recentTxn.getStatus()}" style="color:green;"></td>
-            </tr>
-        </table>
-    </div>
-
 </main>
 <div id="myModal" class="modal">
     <div class="modal-content">

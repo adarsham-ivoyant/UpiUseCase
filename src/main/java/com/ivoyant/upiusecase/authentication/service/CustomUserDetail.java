@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetail implements UserDetails {
-    private Users user;
+    private final Users user;
 
     public CustomUserDetail(Users user) {
         this.user = user;
@@ -16,16 +16,12 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> user.getRole());
+        return List.of(user::getRole);
     }
 
     @Override
     public String getPassword() {
         return user.getPassword();
-    }
-
-    public String getFullName() {
-        return user.getFullName();
     }
 
     @Override
