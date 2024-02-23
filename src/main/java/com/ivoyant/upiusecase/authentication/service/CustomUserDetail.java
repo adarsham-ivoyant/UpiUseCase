@@ -1,6 +1,6 @@
-package com.ivoyant.upiusecase.service;
+package com.ivoyant.upiusecase.authentication.service;
 
-import com.ivoyant.upiusecase.model.Users;
+import com.ivoyant.upiusecase.authentication.model.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

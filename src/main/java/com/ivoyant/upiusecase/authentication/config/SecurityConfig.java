@@ -1,7 +1,7 @@
-package com.ivoyant.upiusecase.config;
+package com.ivoyant.upiusecase.authentication.config;
 
-import com.ivoyant.upiusecase.service.CustomSuccessHandler;
-import com.ivoyant.upiusecase.service.CustomUserDetailService;
+import com.ivoyant.upiusecase.authentication.service.CustomUserDetailService;
+import com.ivoyant.upiusecase.authentication.service.CustomSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +33,14 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests.requestMatchers("/").permitAll()
                         .requestMatchers("/login").permitAll()
+                        .requestMatchers("/css/**").permitAll()
+                        .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/register").permitAll().anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler)
                         .permitAll())
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login").permitAll());
+                        .logoutSuccessUrl("/login?logout").permitAll());
         return http.build();
     }
 

@@ -1,4 +1,4 @@
-package com.ivoyant.upiusecase.model;
+package com.ivoyant.upiusecase.authentication.model;
 
 
 import jakarta.persistence.*;

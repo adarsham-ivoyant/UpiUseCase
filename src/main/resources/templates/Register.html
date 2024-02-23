@@ -3,93 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IvoPay - Register</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #3498db;
-            color: #fff;
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        main {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            max-width: 100%;
-            text-align: center;
-            animation: fadeIn 1s ease-out;
-        }
-
-        h3 {
-            color: red;
-        }
-
-        input {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            border-color: #3498db;
-        }
-
-        input[type="submit"] {
-            background-color: #3498db;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #2980b9;
-        }
-
-        p {
-            margin-top: 10px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    <title>IvoPay - Simplifying Your Payments</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" href="style.css">
 </head>
 <body>
 <header>
@@ -98,8 +13,11 @@
 <main>
     <form method="POST">
         <h2>Register User</h2>
-        <div th:if="${model.containsKey('message')}">
-            <h3 th:text="${model.message}">Registration Successful</h3>
+        <div id="messageContainer" th:if="${model.containsKey('message')}">
+            <h3>Registration Successful</h3>
+        </div>
+        <div th:if="${param.error}">
+            <h3>Registration Unsuccessful</h3>
         </div>
         <input type="text" placeholder="Enter Full Name" name="fullName" required>
         <input type="email" placeholder="Enter Email ID" name="emailId" required>
@@ -110,5 +28,6 @@
     </form>
     <p>Already have an account? <a th:href="${model.login}" href="login.html">Login</a></p>
 </main>
+<script type="text/javascript" th:src="@{/js/login.js}"></script>
 </body>
 </html>

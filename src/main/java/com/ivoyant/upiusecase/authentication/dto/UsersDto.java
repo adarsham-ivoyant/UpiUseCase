@@ -1,4 +1,4 @@
-package com.ivoyant.upiusecase.dto;
+package com.ivoyant.upiusecase.authentication.dto;
 
 import lombok.*;
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>IvoPay - Simplifying Your Payments</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/transaction.css}" href="style.css">
+</head>
+<body>
+<header style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="margin: 0;">iVoPay</h1>
+    <div>
+        <a href="/home" style="text-decoration: none; color: #fff; margin-right: 20px">Home</a>
+        <a onclick="openModal()" style="text-decoration: none; color: #fff; margin-right: 20px">Profile</a>
+        <a href="/logout" style="text-decoration: none; color: #fff;">Logout</a>
+    </div>
+</header>
+<h2>Transaction Details</h2>
+<main>
+    <table>
+        <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Transaction Date And Time</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="transaction : ${transactions}">
+            <td th:text="${transaction.txnId}"></td>
+            <td th:text="${transaction.sender.fullName}"></td>
+            <td th:text="${transaction.receiver.fullName}"></td>
+            <td th:text="${#temporals.format(transaction.transactionDateTime, 'yyyy-MM-dd,hh:mm:ss a')}"></td>
+            <td th:text="${transaction.amount}"></td>
+            <td style="color: green;" th:text="${transaction.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<footer>
+    &copy; 2024 IvoPay. All rights reserved.
+</footer>
+</body>
+</html>

@@ -1,11 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IvoPay - Simplifying Your Payments</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/homepage.css}" href="style.css">
 </head>
 <body>
-<h1> Successfully Logged In</h1>
-<a href="/logout">Logout</a>
+<header style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="margin: 0;">iVoPay</h1>
+    <div>
+        <a onclick="openModal()" style="text-decoration: none; color: #fff; margin-right: 20px">Profile</a>
+        <a href="/logout" style="text-decoration: none; color: #fff;">Logout</a>
+    </div>
+</header>
+<main>
+    <h2>Welcome <span th:text="${userDetails.getUsername()}">User</span></h2>
+    <div class="icon-buttons" th:unless="${bankDetails}">
+        <a class="cta-button" onclick="openAddAcctModal()"><i class="fas fa-university"></i> Add Bank
+            Account</a>
+    </div>
+    <div class="icon-buttons" th:if="${bankDetails}">
+        <a class="cta-button" onclick="showDiv()"><i class="fas fa-balance-scale"></i> Check Balance</a>
+        <a href="/sendMoney" class="cta-button"><i class="fas fa-money-bill-wave"></i> Send Money</a>
+        <a href="/history" class="cta-button"><i class="fas fa-money-bill-wave"></i> Transaction History</a>
+        <div id="hiddenDiv" style="display: none;"><h2 style="text-align: center;"
+                                                       th:text="| Rs.${bankDetails.getBalance()}|"></h2></div>
+        <h5 style="text-align: center;">Your UPI ID: <span th:text="${bankDetails.getUpiId()}">id</span></h5>
+        <h4 style="text-align: center;">Bank Details</h4>
+        <h3 style="text-align: center;">Bank Name: <span th:text="${bankDetails.getBankName()}"></span></h3>
+        <h3 style="text-align: center;">Account Number: <span th:text="${bankDetails.getAccountNumber()}"></span></h3>
+        <h3 style="text-align: center;">IFSC Code: <span th:text="${bankDetails.getIfscCode()}"></span></h3>
+    </div>
+
+    <div th:if="${recentTxn.getSender()==user}">
+        <h2 style="color: #2980b9;text-align: center;">Recent Transaction</h2>
+        <table>
+            <tr>
+                <th>Txn ID</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th th:text="'To'">FD</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td th:text="${recentTxn.getTxnId()}">Ernst Handel</td>
+                <td th:text="|Rs.${recentTxn.getAmount()}|">Roland Mendel</td>
+                <td th:text="|${recentTxn.getTransactionDateTime().getYear()}-${recentTxn.getTransactionDateTime().getMonthValue()}-${recentTxn.getTransactionDateTime().getDayOfMonth()}|">
+                    Austria
+                </td>
+                <td th:text="${recentTxn.getSenderTransactionType()}"></td>
+                <th th:text="${recentTxn.getReceiver().getFullName()}">FD</th>
+                <td th:text="${recentTxn.getStatus()}" style="color:green;"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:unless="${recentTxn.getSender()==user}">
+        <h2 style="color: #2980b9;text-align: center;">Recent Transaction</h2>
+        <table>
+            <tr>
+                <th>Txn ID</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th th:text="'From'">FD</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td th:text="${recentTxn.getTxnId()}">Ernst Handel</td>
+                <td th:text="|Rs.${recentTxn.getAmount()}|">Roland Mendel</td>
+                <td th:text="|${recentTxn.getTransactionDateTime().getYear()}-${recentTxn.getTransactionDateTime().getMonthValue()}-${recentTxn.getTransactionDateTime().getDayOfMonth()}|">
+                    Austria
+                </td>
+                <td th:text="${recentTxn.getReceiverTransactionType()}"></td>
+                <th th:text="${recentTxn.getSender().getFullName()}">FD</th>
+                <td th:text="${recentTxn.getStatus()}" style="color:green;"></td>
+            </tr>
+        </table>
+    </div>
+
+</main>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeModal()">&times;</span>
+        <h2>User Information</h2>
+        <p>User ID: <span th:text="${user.getId()}">John Doe</span></p>
+        <p>Name: <span th:text="${user.getFullName()}">John Doe</span></p>
+        <p>Email: <span th:text="${user.getEmailId()}">john.doe@example.com</span><br><a class="cta-button"
+                                                                                         onclick="openChangeEmailModal()"
+                                                                                         style="text-decoration: none;">Change
+            Email</a></p>
+        <p>Phone Number: <span th:text="${user.getPhoneNumber()}">123456789</span><br><a class="cta-button"
+                                                                                         onclick="openChangePhoneNumberModal()"
+                                                                                         style="text-decoration: none;">Change
+            Phone Number</a></p>
+        <p>Username: <span th:text="${user.getUsername()}">John Doe</span></p>
+    </div>
+</div>
+
+<div id="changeEmailModal" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeChangeEmailModal()">&times;</span>
+        <h2>Change Email</h2>
+        <form action="/change/email" method="POST">
+            <label for="newEmail">New Email:</label>
+            <input type="email" id="newEmail" name="emailId" required>
+            <button class="cta-button" type="submit">Change</button>
+        </form>
+    </div>
+</div>
+
+<div id="changePhoneNumberModal" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeChangePhoneNumberModal()">&times;</span>
+        <h2>Change Phone Number</h2>
+        <form action="/change/phonenumber" method="POST">
+            <label for="newPhoneNumber">New Phone Number:</label>
+            <input type="tel" id="newPhoneNumber" name="phoneNumber" pattern="[0-9]{10}"
+                   title="Please enter a valid 10-digit phone number" required>
+            <button class="cta-button" type="submit">Change</button>
+        </form>
+    </div>
+</div>
+
+<div id="bankAccount" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeAddAcctModal()">&times;</span>
+        <h2>Change Phone Number</h2>
+        <form action="/saveAcct" method="POST">
+            <label for="bankName">Bank Name:</label>
+            <input type="text" id="bankName" name="bankName" required><br><br>
+            <label for="accountNumber">Account Number:</label>
+            <input type="number" id="accountNumber" name="accountNumber" pattern="[0-9]{13}"
+                   title="Please enter a valid 13-digit Account number" required><br><br>
+            <label for="ifscCode">IFSC Code:</label>
+            <input type="text" id="ifscCode" name="ifscCode" required><br><br>
+            <label for="upiId">Your UPI Id:</label>
+            <input type="text" id="upiId" name="upiId" th:value="|${user.getPhoneNumber()}@ivol|" readonly><br><br>
+            <label for="upiPassword">Set Your UPI Password:</label>
+            <input type="password" id="upiPassword" name="upiPassword" required><br><br>
+            <button class="cta-button" type="submit">Save Bank Account</button>
+        </form>
+    </div>
+</div>
+<footer>
+    &copy; 2024 IvoPay. All rights reserved.
+</footer>
+<script type="text/javascript" th:src="@{/js/homepage.js}"></script>
 </body>
 </html>

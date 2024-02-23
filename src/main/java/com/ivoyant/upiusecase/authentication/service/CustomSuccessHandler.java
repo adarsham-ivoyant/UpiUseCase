@@ -1,4 +1,4 @@
-package com.ivoyant.upiusecase.service;
+package com.ivoyant.upiusecase.authentication.service;
 
 import java.io.IOException;
 
@@ -17,5 +17,4 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         response.sendRedirect("/home");
     }
-
 }

@@ -1,7 +1,7 @@
-package com.ivoyant.upiusecase.service;
+package com.ivoyant.upiusecase.authentication.service;
 
-import com.ivoyant.upiusecase.model.Users;
-import com.ivoyant.upiusecase.repository.UsersRepository;
+import com.ivoyant.upiusecase.authentication.model.Users;
+import com.ivoyant.upiusecase.authentication.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

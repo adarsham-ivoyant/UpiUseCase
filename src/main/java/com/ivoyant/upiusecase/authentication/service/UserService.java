@@ -1,7 +1,7 @@
-package com.ivoyant.upiusecase.service;
+package com.ivoyant.upiusecase.authentication.service;
 
-import com.ivoyant.upiusecase.dto.UsersDto;
-import com.ivoyant.upiusecase.model.Users;
+import com.ivoyant.upiusecase.authentication.dto.UsersDto;
+import com.ivoyant.upiusecase.authentication.model.Users;
 import org.springframework.stereotype.Service;
 
 @Service

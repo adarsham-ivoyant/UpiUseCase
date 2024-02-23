@@ -3,92 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IvoPay - Login</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #3498db;
-            color: #fff;
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        main {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            max-width: 100%;
-            text-align: center;
-            animation: fadeIn 1s ease-out;
-        }
-
-        input {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        h3 {
-            color: red;
-        }
-        input:focus {
-            border-color: #3498db;
-        }
-
-        input[type="submit"] {
-            background-color: #3498db;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #2980b9;
-        }
-
-        p {
-            margin-top: 10px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    <title>IvoPay - Simplifying Your Payments</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" href="style.css">
 </head>
 <body>
 <header>
@@ -100,7 +16,7 @@
         <div th:if="${param.error}">
             <h3>Invalid Username or Password</h3>
         </div>
-        <div th:if="${param.logout}">
+        <div id="messageContainer" th:if="${param.logout}">
             <h3>Logout Successfuly</h3>
         </div>
         <input type="text" placeholder="Enter Username" name="username" required>
@@ -109,5 +25,6 @@
     </form>
     <p>New User? <a th:href="${model.register}" href="register.html">Register</a></p>
 </main>
+<script type="text/javascript" th:src="@{/js/login.js}"></script>
 </body>
 </html>
