@@ -39,6 +39,8 @@ public class TransactionController {
     @GetMapping("/sendMoney")
     public ModelAndView sendMoney(Model model, Principal principal) {
         transcationService.initializeUserDetailsAndBankDetails(model, principal);
+        model.addAttribute("toUser", null);
+        model.addAttribute("toBank", null);
         return new ModelAndView("SendMoney");
     }
 
