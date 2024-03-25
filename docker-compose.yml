@@ -6,9 +6,9 @@ services:
     ports:
       - 9090:8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/upi
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_URL: jdbc:mysql://upi.mysql.database.azure.com:3306/upi
+      SPRING_DATASOURCE_USERNAME: citus
+      SPRING_DATASOURCE_PASSWORD: ivoyant@14
     depends_on:
       - db
   db:
