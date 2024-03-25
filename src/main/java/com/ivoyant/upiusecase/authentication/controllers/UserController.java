@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -23,6 +25,16 @@ public class UserController {
         this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.usersRepository = usersRepository;
+    }
+
+    @GetMapping("/getlist")
+    public List<String> getList() {
+        List<String> list = new ArrayList<>();
+        list.add("Sagar");
+        list.add("Lingraj");
+        list.add("Chethan");
+        list.add("Sinchana");
+        return list;
     }
 
     // Landing Page of the website
