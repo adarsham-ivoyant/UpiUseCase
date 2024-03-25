@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IvoPay - Simplifying Your Payments</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sendmoney.css}" href="style.css">
+</head>
+<body>
+<header style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="margin: 0;">iVoPay</h1>
+    <div>
+        <a href="/home" style="text-decoration: none; color: #fff; margin-right: 20px">Home</a>
+        <a onclick="openModal()" style="text-decoration: none; color: #fff; margin-right: 20px">Profile</a>
+        <a href="/logout" style="text-decoration: none; color: #fff;">Logout</a>
+    </div>
+</header>
+<main>
+    <h2>Send Money</h2>
+    <div class="icon-buttons" th:if="${bankDetails}">
+        <a class="cta-button" onclick="showDiv()"><i class="fas fa-balance-scale"></i> Check Balance</a>
+        <div id="hiddenDiv" style="display: none;"><h2 style="text-align: center;"
+                                                       th:text="| Rs.${bankDetails.getBalance()}|">Rs.2932</h2></div>
+    </div>
+    <div th:if="${param.success}" id="messageContainer">
+        <h3 style="color: green;">Transcation Successfully</h3>
+        <h4 style="color: green;text-align: center;">Please Wait..</h4>
+    </div>
+    <div th:if="${param.wrongPass}" id="messageContainer1">
+        <h3 style="color: red;">Transcation Unsuccessfully</h3>
+        <h4 style="color: red;text-align: center;">Due To Wrong UPI Password</h4>
+    </div>
+    <div th:if="${param.upiPassChanged}" id="messageContainer2">
+        <h3 style="color: green;">UPI Password Changed Successfully</h3>
+    </div>
+    <div th:if="${param.upiPassChangefailed}" id="messageContainer3">
+        <h3 style="color: red;">UPI Password Changed Successfully</h3>
+    </div>
+    <form id="paymentForm" action="/pay" method="POST" th:if="${toBank}" th:attr="balance=${bankDetails.getBalance()}" th:unless="${param.success}">
+        <h4 style="text-align: center">To UPI Id: <span th:text="${toBank.getUpiId()}"></span></h4>
+        <label for="amount">Enter Amount Send:</label>
+        <input type="number" id="amount" name="amount" required><br><br>
+        <label for="upiPassword">Enter your UPI Password:</label>
+        <input type="password" id="upiPassword" name="upiPassword" required><br><br>
+        <a th:if="${param.wrongPass}" style="color: blue;float: right;" onclick="openChangeUpiPassModal()">Forget UPI Password?</a><br><br>
+        <button class="cta-button" type="button" onclick="validateAndSubmit()" style="float: right;">Confirm Payment</button>
+    </form>
+</main>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeModal()">&times;</span>
+        <h2>User Information</h2>
+        <p>User ID: <span th:text="${user.getId()}">John Doe</span></p>
+        <p>Name: <span th:text="${user.getFullName()}">John Doe</span></p>
+        <p>Email: <span th:text="${user.getEmailId()}">john.doe@example.com</span><br><a class="cta-button"
+                                                                                         onclick="openChangeEmailModal()"
+                                                                                         style="text-decoration: none;">Change
+            Email</a></p>
+        <p>Phone Number: <span th:text="${user.getPhoneNumber()}">123456789</span><br><a class="cta-button"
+                                                                                         onclick="openChangePhoneNumberModal()"
+                                                                                         style="text-decoration: none;">Change
+            Phone Number</a></p>
+        <p>Username: <span th:text="${user.getUsername()}">John Doe</span></p>
+    </div>
+</div>
+<div id="changeEmailModal" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeChangeEmailModal()">&times;</span>
+        <h2>Change Email</h2>
+        <form action="/change/email" method="POST">
+            <label for="newEmail">New Email:</label>
+            <input type="email" id="newEmail" name="emailId" required>
+            <button class="cta-button" type="submit">Change</button>
+        </form>
+    </div>
+</div>
+<div id="changePhoneNumberModal" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeChangePhoneNumberModal()">&times;</span>
+        <h2>Change Phone Number</h2>
+        <form action="/change/phonenumber" method="POST">
+            <label for="newPhoneNumber">New Phone Number:</label>
+            <input type="tel" id="newPhoneNumber" name="phoneNumber" pattern="[0-9]{10}"
+                   title="Please enter a valid 10-digit phone number" required>
+            <button class="cta-button" type="submit">Change</button>
+        </form>
+    </div>
+</div>
+<div id="changeUpiPassModal" class="modal">
+    <div class="modal-content">
+        <span style="padding-left: 80%;" onclick="closeChangeUpiPassModal()">&times;</span>
+        <h2>Change UPI Password</h2>
+        <form action="/change/upiPass" method="POST">
+            <label for="newPhoneNumber">New UPI Password:</label>
+            <input type="text" id="newUpiPassword" name="newUpiPassword" required>
+            <button class="cta-button" type="submit">Change</button>
+        </form>
+    </div>
+</div>
+<footer>
+    &copy; 2024 IvoPay. All rights reserved.
+</footer>
+<script type="text/javascript" th:src="@{/js/payment.js}"></script>
+</body>
+</html>
