@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CheckDeployment {
     @GetMapping("/deploycheck")
     public String checkDeployment() {
-        return "Hello World Test Deployment";
+        return "Hello World From CICD Deployment";
     }
 }
